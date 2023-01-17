@@ -7,11 +7,11 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
-   sodipodi:docname="tool_icon.svg"
-   id="svg12"
+   version="1.1"
    viewBox="0 0 24 24"
-   version="1.1">
+   id="svg12"
+   sodipodi:docname="tool_icon.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)">
   <metadata
      id="metadata18">
     <rdf:RDF>
@@ -26,47 +26,39 @@
   <defs
      id="defs16" />
   <sodipodi:namedview
-     inkscape:current-layer="svg12"
-     inkscape:window-maximized="1"
-     inkscape:window-y="105"
-     inkscape:window-x="-8"
-     inkscape:cy="8.7780785"
-     inkscape:cx="7.8243976"
-     inkscape:zoom="19.740064"
-     showgrid="false"
-     id="namedview14"
-     inkscape:window-height="837"
-     inkscape:window-width="1600"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0"
-     guidetolerance="10"
-     gridtolerance="10"
-     objecttolerance="10"
-     borderopacity="1"
+     inkscape:document-rotation="0"
+     pagecolor="#ffffff"
      bordercolor="#666666"
-     pagecolor="#ffffff" />
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     id="namedview14"
+     showgrid="false"
+     inkscape:zoom="19.740064"
+     inkscape:cx="7.8243976"
+     inkscape:cy="8.7780785"
+     inkscape:window-x="1592"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg12" />
   <path
-     id="path2"
-     d="M12,3.4l6,6l-6,6l-6-6L12,3.4 M5.3,7.3c-1.2,1.2-1.2,3.1,0,4.2l4.6,4.6c1.2,1.2,3.1,1.2,4.2,0l4.6-4.6  c1.2-1.2,1.2-3.1,0-4.2l-4.6-4.6c-1.2-1.2-3.1-1.2-4.2,0L5.3,7.3z" />
+     d="M 14.619141 0.83789062 L 14.638672 3.2382812 L 14.099609 2.6992188 C 13.499609 2.0992187 12.725391 1.8007812 11.962891 1.8007812 C 11.200391 1.8007812 10.450391 2.0992187 9.9003906 2.6992188 L 5.3007812 7.3007812 C 4.1007812 8.5007812 4.1007812 10.4 5.3007812 11.5 L 9.9003906 16.099609 C 11.100391 17.299609 12.999609 17.299609 14.099609 16.099609 L 16.513672 13.685547 L 18.765625 13.701172 L 18.748047 11.443359 C 19.343904 10.818374 19.616576 10.021573 19.580078 9.2441406 L 23.351562 9.2714844 L 23.320312 5.3652344 L 18.699219 5.3320312 L 18.664062 0.8671875 L 14.619141 0.83789062 z M 12 3.4003906 L 13.894531 5.2949219 L 10.132812 5.2675781 L 12 3.4003906 z M 15.787109 4.1269531 L 17.769531 4.140625 L 17.787109 6.25 L 20.054688 6.265625 L 20.070312 8.1113281 L 19.292969 8.1054688 L 17.802734 8.09375 L 17.8125 9.2128906 L 17.814453 9.5859375 L 17.820312 10.203125 L 17.201172 10.199219 L 15.835938 10.189453 L 15.820312 8.0800781 L 13.552734 8.0644531 L 13.537109 6.21875 L 14.828125 6.2285156 L 15.804688 6.2363281 L 15.789062 4.3886719 L 15.787109 4.1269531 z M 10.03125 5.3691406 L 10.0625 9.1738281 L 14.685547 9.2070312 L 14.712891 12.6875 L 12 15.400391 L 6 9.4003906 L 10.03125 5.3691406 z "
+     id="path2" />
   <polygon
-     id="polygon4"
-     points="20.4,18 22,19.6 20.6,21 19,19.4 17.4,21 16,19.6 17.6,18 16,16.4 17.4,15 19,16.6 20.6,15 22,16.4" />
+     points="20.4,18 22,19.6 20.6,21 19,19.4 17.4,21 16,19.6 17.6,18 16,16.4 17.4,15 19,16.6 20.6,15 22,16.4"
+     id="polygon4" />
   <polygon
-     id="polygon6"
-     points="3,11.8 3,21 5,21 5,13.8" />
+     points="3,11.8 3,21 5,21 5,13.8"
+     id="polygon6" />
   <path
-     id="path8"
-     d="M13,18.7V21h-2v-2.3c0.3,0.1,0.7,0.1,1,0.1S12.7,18.8,13,18.7z" />
+     d="M13,18.7V21h-2v-2.3c0.3,0.1,0.7,0.1,1,0.1S12.7,18.8,13,18.7z"
+     id="path8" />
   <path
-     id="path10"
-     d="M8.6,17.4c0.1,0.1,0.3,0.3,0.4,0.4V21H7v-5.2L8.6,17.4z" />
-  <polygon
-     transform="matrix(1.4555288,1.4057083,-1.4334127,1.3843493,14.838325,-44.357264)"
-     points="22,16.4 20.4,18 22,19.6 20.6,21 19,19.4 17.4,21 16,19.6 17.6,18 16,16.4 17.4,15 19,16.6 20.6,15 "
-     id="polygon4-4" />
-  <polygon
-     style="fill:#ffffff"
-     id="polygon4-4-1"
-     points="20.6,15 22,16.4 20.4,18 22,19.6 20.6,21 19,19.4 17.4,21 16,19.6 17.6,18 16,16.4 17.4,15 19,16.6 "
-     transform="matrix(0.71375796,0.66393745,-0.70291275,0.65384927,15.894492,-17.219152)" />
+     d="M8.6,17.4c0.1,0.1,0.3,0.3,0.4,0.4V21H7v-5.2L8.6,17.4z"
+     id="path10" />
 </svg>
