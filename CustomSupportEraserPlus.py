@@ -68,7 +68,6 @@ class CustomSupportEraserPlus(Tool):
         self._all_picked_node = []
         
         self._Nb_Point = 0  
-        self._SHeights = 0
         
         # variable for menu dialog        
         self._UseSize = 5.0
@@ -141,16 +140,11 @@ class CustomSupportEraserPlus(Tool):
             if ctrl_is_active:
                 self._controller.setActiveTool("TranslateTool")
                 return
-
-            if alt_is_active:
-                self._controller.setActiveTool("RotateTool")
-                return
                 
             if self._skip_press:
                 # The selection was previously cleared, do not add/remove an support mesh but
                 # use this click for selection and reactivating this tool only.
                 self._skip_press = False
-                self._SHeights=0
                 return
 
             if self._selection_pass is None:
@@ -168,7 +162,6 @@ class CustomSupportEraserPlus(Tool):
             if node_stack:
                 if node_stack.getProperty("anti_overhang_mesh", "value") and not alt_is_active:
                     self._removeSupportBlockerMesh(picked_node)
-                    self._SHeights=0
                     return
 
                 elif node_stack.getProperty("support_mesh", "value") or node_stack.getProperty("anti_overhang_mesh", "value") or node_stack.getProperty("infill_mesh", "value") or node_stack.getProperty("cutting_mesh", "value"):

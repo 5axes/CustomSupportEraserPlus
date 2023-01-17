@@ -57,8 +57,6 @@ Select the type of support to create with the buttons in the support plugin inte
 
 - **Clicking existing support eraser + Ctrl** switch automaticaly to the Translate Tool to modify the position of the support.
 
-- **Clicking existing support eraser + Alt** this shorcut allow to add a support on a existing support.
-
 >Note: it's easier to add/remove supports blocker when you are in "Solid View" mode
 
 
