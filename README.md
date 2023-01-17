@@ -53,13 +53,11 @@ Select the type of support to create with the buttons in the support plugin inte
 - Click anywhere on the model to place support eraser there
 * The length of the support is automaticaly set from the pick point to the construction plate if the option "Reach Build Plate" is active.
 
-- **Clicking existing support deletes it**
+- **Clicking existing support eraser deletes it**
 
-- **Clicking existing support + Ctrl** switch automaticaly to the Translate Tool to modify the position of the support.
+- **Clicking existing support eraser + Ctrl** switch automaticaly to the Translate Tool to modify the position of the support.
 
-- **Clicking existing support + Alt** this shorcut allow to add a support on a existing support.
-
-- Before to slice your model, uncheck the "Generate Support" checkbox in the right panel **(if you want to use ONLY custom supports)**
+- **Clicking existing support eraser + Alt** this shorcut allow to add a support on a existing support.
 
 >Note: it's easier to add/remove supports blocker when you are in "Solid View" mode
 
