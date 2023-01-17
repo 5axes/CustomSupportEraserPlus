@@ -119,8 +119,6 @@ class CustomSupportEraserPlus(Tool):
         self._UseSize = float(self._preferences.getValue("CustomSupportEraserPlus/s_size"))
         # convert as boolean to avoid further issue
         self._UseOnBuildPlate = bool(self._preferences.getValue("CustomSupportEraserPlus/on_build_plate"))
-
-
  
                 
     def event(self, event):
@@ -173,7 +171,7 @@ class CustomSupportEraserPlus(Tool):
             picking_pass = PickingPass(active_camera.getViewportWidth(), active_camera.getViewportHeight())
             picking_pass.render()
             
-            
+            # Type Custom need to select Two points
             if self._SBType == 'custom': 
                 self._Nb_Point += 1
                 if self._Nb_Point == 2 :
@@ -199,10 +197,10 @@ class CustomSupportEraserPlus(Tool):
     def _createSupportEraserMesh(self, parent: CuraSceneNode, position: Vector , position2: Vector):
         node = CuraSceneNode()
     
-        if self._SBType == 'cylinder':
-            node.setName("CylinderBlocker")
-        elif self._SBType == 'cube':
-            node.setName("CubeBlocker")           
+        if self._SBType == 'cube':
+            node.setName("CubeBlocker")
+        elif self._SBType == 'cylinder':
+            node.setName("CylinderBlocker")           
         else:
             node.setName("CustomBlocker")
             
@@ -212,6 +210,7 @@ class CustomSupportEraserPlus(Tool):
         if self._UseOnBuildPlate :
             self._long=position.y
         else :
+            # Change de Height for the Cylinder to the radius
             if self._SBType == 'cylinder':
                 self._long=self._UseSize*0.5
             else :
