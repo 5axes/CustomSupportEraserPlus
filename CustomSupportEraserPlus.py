@@ -220,11 +220,14 @@ class CustomSupportEraserPlus(Tool):
         node.setSelectable(True)
         
         # long=Support Height
-        self._long=position.y
+        if self._UseOnBuildPlate :
+            self._long=self._UseSize
+        else :
+            self._long=position.y
         # Logger.log("d", "Long Support= %s", str(self._long))
         
         # Limitation for support height to Node Height
-        # For Cube/Cylinder/Tube
+        # For Cube/Cylinder
         # Test with 0.5 because the precision on the clic poisition is not very thight 
         if self._long >= (self._nodeHeight-0.5) :
             # additionale length
@@ -253,8 +256,7 @@ class CustomSupportEraserPlus(Tool):
                 extra_top=extruder_stack.getProperty("support_interface_height", "value")            
             mesh =  self._createCustom(self._UseSize,position,position2,extra_top)
 
-        # Mesh Freeform are loaded via trimesh doesn't aheve the Build method
-        node.setMeshData(mesh)
+        node.setMeshData(mesh.build())
 
         # test for init position
         node_transform = Matrix()
@@ -370,10 +372,9 @@ class CustomSupportEraserPlus(Tool):
         l = height 
         s_inf=s
         
-        Logger.log("d", "size= %s", str(size))
-        Logger.log("d", "height= %s", str(height))
-        Logger.log("d", "top= %s", str(top))
-        
+        # Logger.log("d", "size= %s", str(size))
+        # Logger.log("d", "height= %s", str(height))
+        # Logger.log("d", "top= %s", str(top))
         
         nbv=24        
         verts = [ # 6 faces with 4 corners each
