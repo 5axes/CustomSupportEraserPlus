@@ -211,11 +211,11 @@ class CustomSupportEraserPlus(Tool):
         # Logger.log("d", "Height Model= %s", str(node_bounds.height))
         
         if self._SBType == 'cylinder':
-            node.setName("CustomSupportBlockerCylinder")
+            node.setName("CylinderBlocker")
         elif self._SBType == 'cube':
-            node.setName("CustomSupportBlockerCube")           
+            node.setName("CubeBlocker")           
         else:
-            node.setName("CustomSupportBlockerCustom")
+            node.setName("CustomBlocker")
             
         node.setSelectable(True)
         
@@ -369,6 +369,11 @@ class CustomSupportEraserPlus(Tool):
         s = size / 2
         l = height 
         s_inf=s
+        
+        Logger.log("d", "size= %s", str(size))
+        Logger.log("d", "height= %s", str(height))
+        Logger.log("d", "top= %s", str(top))
+        
         
         nbv=24        
         verts = [ # 6 faces with 4 corners each
