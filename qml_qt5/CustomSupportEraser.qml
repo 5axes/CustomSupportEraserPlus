@@ -25,12 +25,9 @@ Item
     function setSBType(type)
     {
         // set checked state of mesh type buttons
+		cubeButton.checked = type === 'cube'
 		cylinderButton.checked = type === 'cylinder'
-		tubeButton.checked = type === 'tube'
-        cubeButton.checked = type === 'cube'
-		abutmentButton.checked = type === 'abutment'
 		customButton.checked = type === 'custom'
-		freeformButton.checked = type === 'freeform'
         UM.ActiveTool.setProperty("SBType", type)
     }
 	

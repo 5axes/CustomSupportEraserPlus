@@ -39,8 +39,8 @@ First, make sure your Cura version is 4.8 or newer. This plugin is now avalaible
 
 * Load a model in Cura and select it
 
-* Click on the "Custom Supports Eraser plus" button on the left toolbar
-* With the 3 buttons in the plugin windows, it's possible to switch the geometry between a cube, a cylinder or a custom support.
+* Click on the "Custom Supports Eraser Plus" button on the left toolbar
+* With the 3 buttons in the plugin windows, it's possible to switch the geometry between a cube, a cylinder or a custom support (Blocker defined by two points).
 * Change the value for the support *Size* in numeric input field in the tool panel if necessary
 
 
