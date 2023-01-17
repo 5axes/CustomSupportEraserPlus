@@ -78,7 +78,7 @@ class CustomSupportEraserPlus(Tool):
         self._EqualizeHeights = True
         self._ScaleMainDirection = True
         self._MirrorSupport = False
-        self._SType = 'cylinder'
+        self._SType = 'cube'
         self._SubType = 'cross'
         self._SMsg = 'Remove All'
         
@@ -185,8 +185,8 @@ class CustomSupportEraserPlus(Tool):
 
             node_stack = picked_node.callDecoration("getStack")
             if node_stack:
-                if node_stack.getProperty("support_mesh", "value") and not alt_is_active:
-                    self._removeSupportMesh(picked_node)
+                if node_stack.getProperty("anti_overhang_mesh", "value") and not alt_is_active:
+                    self._removeSupportBlockerMesh(picked_node)
                     self._SHeights=0
                     return
 
@@ -232,14 +232,8 @@ class CustomSupportEraserPlus(Tool):
         
         if self._SType == 'cylinder':
             node.setName("CustomSupportCylinder")
-        elif self._SType == 'tube':
-            node.setName("CustomSupportTube")
         elif self._SType == 'cube':
-            node.setName("CustomSupportCube")
-        elif self._SType == 'abutment':
-            node.setName("CustomSupportAbutment")
-        elif self._SType == 'freeform':
-            node.setName("CustomSupportFreeForm")            
+            node.setName("CustomSupportCube")           
         else:
             node.setName("CustomSupportCustom")
             
@@ -268,65 +262,9 @@ class CustomSupportEraserPlus(Tool):
         if self._SType == 'cylinder':
             # Cylinder creation Diameter , Maximum diameter , Increment angle 10°, length , top Additional Height, Angle of the support
             mesh = self._createCylinder(self._UseSize,self._MaxSize,10,self._long,self._Sup,self._UseAngle)
-        elif self._SType == 'tube':
-            # Tube creation Diameter ,Maximum diameter , Diameter Int, Increment angle 10°, length, top Additional Height , Angle of the support
-            mesh =  self._createTube(self._UseSize,self._MaxSize,self._UseISize,10,self._long,self._Sup,self._UseAngle)
         elif self._SType == 'cube':
             # Cube creation Size,Maximum Size , length , top Additional Height, Angle of the support
             mesh =  self._createCube(self._UseSize,self._MaxSize,self._long,self._Sup,self._UseAngle)
-        elif self._SType == 'freeform':
-            # Cube creation Size , length
-            mesh = MeshBuilder()  
-            MName = self._SubType + ".stl"
-            model_definition_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "models", MName)
-            # Logger.log('d', 'Model_definition_path : ' + str(model_definition_path)) 
-            load_mesh = trimesh.load(model_definition_path)
-            origin = [0, 0, 0]
-            DirX = [1, 0, 0]
-            DirY = [0, 1, 0]
-            DirZ = [0, 0, 1]
-            
-            # Solution must be tested ( other solution just on the X Axis)
-            if self._ScaleMainDirection :
-                if (self._long * 0.5 ) < self._UseSize :
-                    Scale = self._UseSize
-                else :
-                    Scale = self._long * 0.5
-                load_mesh.apply_transform(trimesh.transformations.scale_matrix(Scale, origin, DirX))
-                load_mesh.apply_transform(trimesh.transformations.scale_matrix(Scale, origin, DirY))
-            else :
-                load_mesh.apply_transform(trimesh.transformations.scale_matrix(self._UseSize, origin, DirX))
-                load_mesh.apply_transform(trimesh.transformations.scale_matrix(self._UseSize, origin, DirY))
-                
-            #load_mesh.apply_transform(trimesh.transformations.scale_matrix(self._UseSize, origin, DirY))
- 
-            load_mesh.apply_transform(trimesh.transformations.scale_matrix(self._long, origin, DirZ)) 
-            if self._MirrorSupport == True :   
-                load_mesh.apply_transform(trimesh.transformations.rotation_matrix(math.radians(180), [0, 0, 1]))
-            if self._UseYDirection == True :
-                load_mesh.apply_transform(trimesh.transformations.rotation_matrix(math.radians(90), [0, 0, 1]))
-
-            mesh =  self._toMeshData(load_mesh)
-            
-        elif self._SType == 'abutment':
-            # Abutement creation Size , length , top
-            if self._EqualizeHeights == True :
-                # Logger.log('d', 'SHeights : ' + str(self._SHeights)) 
-                if self._SHeights==0 :
-                    self._SHeights=position.y
-                    self._SSup=self._Sup
-
-                self._top=self._SSup+(self._SHeights-position.y)
-                
-            else:
-                self._top=self._Sup
-                self._SHeights=0
-            
-            # 
-            Logger.log('d', 'top : ' + str(self._top))
-            # Logger.log('d', 'MaxSize : ' + str(self._MaxSize))
-            
-            mesh =  self._createAbutment(self._UseSize,self._MaxSize,self._long,self._top,self._UseAngle,self._UseYDirection)
         else:           
             # Custom creation Size , P1 as vector P2 as vector
             # Get support_interface_height as extra distance 
@@ -356,31 +294,12 @@ class CustomSupportEraserPlus(Tool):
 
         settings = stack.getTop()
 
-        # Define the new mesh as "support_mesh" or "support_mesh_drop_down"
-        # Must be set for this 2 types
-        # for key in ["support_mesh", "support_mesh_drop_down"]:
-        # Don't fix
-        
-        definition = stack.getSettingDefinition("support_mesh")
+        # Define the new mesh as "anti_overhang_mesh" 
+        definition = stack.getSettingDefinition("anti_overhang_mesh")
         new_instance = SettingInstance(definition, settings)
         new_instance.setProperty("value", True)
         new_instance.resetState()  # Ensure that the state is not seen as a user state.
         settings.addInstance(new_instance)
-
-        definition = stack.getSettingDefinition("support_mesh_drop_down")
-        new_instance = SettingInstance(definition, settings)
-        new_instance.setProperty("value", False)
-        new_instance.resetState()  # Ensure that the state is not seen as a user state.
-        settings.addInstance(new_instance)
-
-        global_container_stack = CuraApplication.getInstance().getGlobalContainerStack()    
-        
-        s_p = global_container_stack.getProperty("support_type", "value")
-        if s_p ==  'buildplate' :
-            Message(text = "Info modification support_type new value : everywhere", title = catalog.i18nc("@info:title", "Custom Supports Cylinder")).show()
-            Logger.log('d', 'Support_type different from everywhere : ' + str(s_p))
-            # Define support_type=everywhere
-            global_container_stack.setProperty("support_type", "value", 'everywhere')
             
         op = GroupedOperation()
         # First add node to the scene at the correct position/scale, before parenting, so the support mesh does not get scaled with the parent
@@ -394,7 +313,7 @@ class CustomSupportEraserPlus(Tool):
         
         CuraApplication.getInstance().getController().getScene().sceneChanged.emit(node)
 
-    def _removeSupportMesh(self, node: CuraSceneNode):
+    def _removeSupportBlockerMesh(self, node: CuraSceneNode):
         parent = node.getParent()
         if parent == self._controller.getScene().getRoot():
             parent = None
@@ -412,7 +331,7 @@ class CustomSupportEraserPlus(Tool):
 
         global_container_stack = CuraApplication.getInstance().getGlobalContainerStack()
         if global_container_stack:
-            plugin_enabled = global_container_stack.getProperty("support_mesh", "enabled")
+            plugin_enabled = global_container_stack.getProperty("anti_overhang_mesh", "enabled")
 
         CuraApplication.getInstance().getController().toolEnabledChanged.emit(self._plugin_id, plugin_enabled)
     
@@ -518,86 +437,6 @@ class CustomSupportEraserPlus(Tool):
         mesh.calculateNormals()
         return mesh
         
-    # Abutment Creation
-    def _createAbutment(self, size, maxs, height, top, dep, ydir):
-    
-        # Logger.log('d', 'Ydir : ' + str(ydir)) 
-        mesh = MeshBuilder()
-
-        s = size / 2
-        sm = maxs / 2
-        l = height 
-        s_inf=math.tan(math.radians(dep))*(l+top)+(2*s)
-        
-        if sm>s and dep!=0:
-            l_max=(sm-s) / math.tan(math.radians(dep))
-        else :
-            l_max=l
-        
-        # Debug Log Lines
-        # Logger.log('d', 's_inf : ' + str(s_inf))
-        # Logger.log('d', 'l_max : ' + str(l_max)) 
-        # Logger.log('d', 'l : ' + str(l))
-        
-        # Difference between Standart Abutment and Abutment + max base size
-        if l_max<l and l_max>0:
-            nbv=40  
-            if ydir == False :
-                verts = [ # 10 faces with 4 corners each
-                    [-s, -l_max,  sm], [-s,  top,  2*s], [ s,  top,  2*s], [ s, -l_max,  sm],
-                    [-s,  top, -2*s], [-s, -l_max, -sm], [ s, -l_max, -sm], [ s,  top, -2*s],
-                    [-s, -l,  sm], [-s,  -l_max,  sm], [ s,  -l_max,  sm], [ s, -l,  sm],
-                    [-s,  -l_max, -sm], [-s, -l, -sm], [ s, -l, -sm], [ s,  -l_max, -sm],                  
-                    [ s, -l, -sm], [-s, -l, -sm], [-s, -l,  sm], [ s, -l,  sm],
-                    [-s,  top, -2*s], [ s,  top, -2*s], [ s,  top,  2*s], [-s,  top,  2*s],
-                    [-s, -l_max,  sm], [-s, -l_max, -sm], [-s,  top, -2*s], [-s,  top,  2*s],
-                    [ s, -l_max, -sm], [ s, -l_max,  sm], [ s,  top,  2*s], [ s,  top, -2*s],                   
-                    [-s, -l,  sm], [-s, -l, -sm], [-s,  -l_max, -sm], [-s,  -l_max,  sm],
-                    [ s, -l, -sm], [ s, -l,  sm], [ s,  -l_max,  sm], [ s,  -l_max, -sm]
-                ]
-            else:
-                verts = [ # 10 faces with 4 corners each
-                    [-sm, -l_max,  s], [-2*s,  top,  s], [ 2*s,  top,  s], [ sm, -l_max,  s],
-                    [-2*s,  top, -s], [-sm, -l_max, -s], [ sm, -l_max, -s], [ 2*s,  top, -s],                
-                    [-sm, -l,  s], [-sm,  -l_max,  s], [ sm,  -l_max,  s], [ sm, -l,  s],
-                    [-sm,  -l_max, -s], [-sm, -l, -s], [ sm, -l, -s], [ sm,  -l_max, -s],                         
-                    [ sm, -l, -s], [-sm, -l, -s], [-sm, -l,  s], [ sm, -l,  s],
-                    [-2*s,  top, -s], [ 2*s,  top, -s], [ 2*s,  top,  s], [-2*s,  top,  s],             
-                    [-sm, -l_max,  s], [-sm, -l_max, -s], [-2*s,  top, -s], [-2*s,  top,  s],
-                    [ sm, -l_max, -s], [ sm, -l_max,  s], [ 2*s,  top,  s], [ 2*s,  top, -s],                                  
-                    [-sm, -l,  s], [-sm, -l, -s], [-sm,  -l_max, -s], [-sm,  -l_max,  s],
-                    [ sm, -l, -s], [ sm, -l,  s], [ sm,  -l_max,  s], [ sm,  -l_max, -s]
-                ]             
-        else:
-            nbv=24        
-            if ydir == False :
-                verts = [ # 6 faces with 4 corners each
-                    [-s, -l,  s_inf], [-s,  top,  2*s], [ s,  top,  2*s], [ s, -l,  s_inf],
-                    [-s,  top, -2*s], [-s, -l, -s_inf], [ s, -l, -s_inf], [ s,  top, -2*s],
-                    [ s, -l, -s_inf], [-s, -l, -s_inf], [-s, -l,  s_inf], [ s, -l,  s_inf],
-                    [-s,  top, -2*s], [ s,  top, -2*s], [ s,  top,  2*s], [-s,  top,  2*s],
-                    [-s, -l,  s_inf], [-s, -l, -s_inf], [-s,  top, -2*s], [-s,  top,  2*s],
-                    [ s, -l, -s_inf], [ s, -l,  s_inf], [ s,  top,  2*s], [ s,  top, -2*s]
-                ]
-            else:
-                verts = [ # 6 faces with 4 corners each
-                    [-s_inf, -l,  s], [-2*s,  top,  s], [ 2*s,  top,  s], [ s_inf, -l,  s],
-                    [-2*s,  top, -s], [-s_inf, -l, -s], [ s_inf, -l, -s], [ 2*s,  top, -s],
-                    [ s_inf, -l, -s], [-s_inf, -l, -s], [-s_inf, -l,  s], [ s_inf, -l,  s],
-                    [-2*s,  top, -s], [ 2*s,  top, -s], [ 2*s,  top,  s], [-2*s,  top,  s],
-                    [-s_inf, -l,  s], [-s_inf, -l, -s], [-2*s,  top, -s], [-2*s,  top,  s],
-                    [ s_inf, -l, -s], [ s_inf, -l,  s], [ 2*s,  top,  s], [ 2*s,  top, -s]
-                ]        
-        mesh.setVertices(numpy.asarray(verts, dtype=numpy.float32))
-
-        indices = []
-        for i in range(0, nbv, 4): # All 6 quads (12 triangles)
-            indices.append([i, i+2, i+1])
-            indices.append([i, i+3, i+2])
-        mesh.setIndices(numpy.asarray(indices, dtype=numpy.int32))
-
-        mesh.calculateNormals()
-        return mesh
         
     # Cylinder creation
     def _createCylinder(self, size, maxs, nb , lg , sup ,dep):
@@ -671,128 +510,6 @@ class CustomSupportEraserPlus(Tool):
 
         indices = []
         # for every angle increment nbv (12 or 18) Vertices
-        tot = rng * nbv
-        for i in range(0, tot, 3): # 
-            indices.append([i, i+1, i+2])
-        mesh.setIndices(numpy.asarray(indices, dtype=numpy.int32))
-
-        mesh.calculateNormals()
-        return mesh
- 
-   # Tube creation
-    def _createTube(self, size, maxs, isize, nb , lg, sup ,dep):
-        # Logger.log('d', 'isize : ' + str(isize)) 
-        mesh = MeshBuilder()
-        # Per-vertex normals require duplication of vertices
-        r = size / 2
-        ri = isize / 2
-        rm = maxs / 2
-        l = -lg
-        rng = int(360 / nb)
-        ang = math.radians(nb)
-        r_inf=math.tan(math.radians(dep))*lg+r
-        if rm>r and dep!=0:
-            l_max=(rm-r) / math.tan(math.radians(dep))
-        else :
-            l_max=l
-            
-        verts = []
-        if l_max<lg and l_max>0:
-            nbv=30
-            for i in range(0, rng):
-                # Top
-                verts.append([ri*math.cos(i*ang), sup, ri*math.sin(i*ang)])
-                verts.append([r*math.cos((i+1)*ang), sup, r*math.sin((i+1)*ang)])
-                verts.append([r*math.cos(i*ang), sup, r*math.sin(i*ang)])
-                
-                verts.append([ri*math.cos((i+1)*ang), sup, ri*math.sin((i+1)*ang)])
-                verts.append([r*math.cos((i+1)*ang), sup, r*math.sin((i+1)*ang)])
-                verts.append([ri*math.cos(i*ang), sup, ri*math.sin(i*ang)])
-
-                #Side 1a
-                verts.append([r*math.cos(i*ang), sup, r*math.sin(i*ang)])
-                verts.append([r*math.cos((i+1)*ang), sup, r*math.sin((i+1)*ang)])
-                verts.append([rm*math.cos((i+1)*ang), -l_max, rm*math.sin((i+1)*ang)])
-                
-                #Side 1b
-                verts.append([rm*math.cos((i+1)*ang), -l_max, rm*math.sin((i+1)*ang)])
-                verts.append([rm*math.cos(i*ang), -l_max, rm*math.sin(i*ang)])
-                verts.append([r*math.cos(i*ang), sup, r*math.sin(i*ang)])
-                
-                #Side 2a
-                verts.append([rm*math.cos(i*ang), -l_max, rm*math.sin(i*ang)])
-                verts.append([rm*math.cos((i+1)*ang), -l_max, rm*math.sin((i+1)*ang)])
-                verts.append([rm*math.cos((i+1)*ang), l, rm*math.sin((i+1)*ang)])
-                
-                #Side 2b
-                verts.append([rm*math.cos((i+1)*ang), l, rm*math.sin((i+1)*ang)])
-                verts.append([rm*math.cos(i*ang), l, rm*math.sin(i*ang)])
-                verts.append([rm*math.cos(i*ang), -l_max, rm*math.sin(i*ang)])
-                
-                #Bottom 
-                verts.append([ri*math.cos(i*ang), l, ri*math.sin(i*ang)])
-                verts.append([rm*math.cos(i*ang), l, rm*math.sin(i*ang)])
-                verts.append([rm*math.cos((i+1)*ang), l, rm*math.sin((i+1)*ang)]) 
-                
-                verts.append([ri*math.cos((i+1)*ang), l, ri*math.sin((i+1)*ang)])
-                verts.append([ri*math.cos(i*ang), l, ri*math.sin(i*ang)])
-                verts.append([rm*math.cos((i+1)*ang), l, rm*math.sin((i+1)*ang)]) 
-                
-                #Side Inta
-                verts.append([ri*math.cos(i*ang), sup, ri*math.sin(i*ang)])
-                verts.append([ri*math.cos((i+1)*ang), l, ri*math.sin((i+1)*ang)])
-                verts.append([ri*math.cos((i+1)*ang), sup, ri*math.sin((i+1)*ang)])
-                
-                #Side Intb
-                verts.append([ri*math.cos((i+1)*ang), l, ri*math.sin((i+1)*ang)])
-                verts.append([ri*math.cos(i*ang), sup, ri*math.sin(i*ang)])
-                verts.append([ri*math.cos(i*ang), l, ri*math.sin(i*ang)])
-                
-        else:
-            nbv=24
-            for i in range(0, rng):
-                # Top
-                verts.append([ri*math.cos(i*ang), sup, ri*math.sin(i*ang)])
-                verts.append([r*math.cos((i+1)*ang), sup, r*math.sin((i+1)*ang)])
-                verts.append([r*math.cos(i*ang), sup, r*math.sin(i*ang)])
-                
-                verts.append([ri*math.cos((i+1)*ang), sup, ri*math.sin((i+1)*ang)])
-                verts.append([r*math.cos((i+1)*ang), sup, r*math.sin((i+1)*ang)])
-                verts.append([ri*math.cos(i*ang), sup, ri*math.sin(i*ang)])
-                
-                #Side 1a
-                verts.append([r*math.cos(i*ang), sup, r*math.sin(i*ang)])
-                verts.append([r*math.cos((i+1)*ang), sup, r*math.sin((i+1)*ang)])
-                verts.append([r_inf*math.cos((i+1)*ang), l, r_inf*math.sin((i+1)*ang)])
-                
-                #Side 1b
-                verts.append([r_inf*math.cos((i+1)*ang), l, r_inf*math.sin((i+1)*ang)])
-                verts.append([r_inf*math.cos(i*ang), l, r_inf*math.sin(i*ang)])
-                verts.append([r*math.cos(i*ang), sup, r*math.sin(i*ang)])
-                
-                #Bottom 
-                verts.append([ri*math.cos(i*ang), l, ri*math.sin(i*ang)])
-                verts.append([r_inf*math.cos(i*ang), l, r_inf*math.sin(i*ang)])
-                verts.append([r_inf*math.cos((i+1)*ang), l, r_inf*math.sin((i+1)*ang)]) 
-                
-                verts.append([ri*math.cos((i+1)*ang), l, ri*math.sin((i+1)*ang)])
-                verts.append([ri*math.cos(i*ang), l, ri*math.sin(i*ang)])
-                verts.append([r_inf*math.cos((i+1)*ang), l, r_inf*math.sin((i+1)*ang)]) 
-                
-                #Side Inta
-                verts.append([ri*math.cos(i*ang), sup, ri*math.sin(i*ang)])
-                verts.append([ri*math.cos((i+1)*ang), l, ri*math.sin((i+1)*ang)])
-                verts.append([ri*math.cos((i+1)*ang), sup, ri*math.sin((i+1)*ang)])
-                
-                #Side Intb
-                verts.append([ri*math.cos((i+1)*ang), l, ri*math.sin((i+1)*ang)])
-                verts.append([ri*math.cos(i*ang), sup, ri*math.sin(i*ang)])
-                verts.append([ri*math.cos(i*ang), l, ri*math.sin(i*ang)])
-
-        mesh.setVertices(numpy.asarray(verts, dtype=numpy.float32))
-
-        indices = []
-        # for every angle increment ( 24  or 30 ) Vertices
         tot = rng * nbv
         for i in range(0, tot, 3): # 
             indices.append([i, i+1, i+2])
@@ -928,12 +645,12 @@ class CustomSupportEraserPlus(Tool):
         mesh.calculateNormals()
         return mesh
 
-    def removeAllSupportMesh(self):
+    def removeAllSupportBlockerMesh(self):
         if self._all_picked_node:
             for node in self._all_picked_node:
                 node_stack = node.callDecoration("getStack")
-                if node_stack.getProperty("support_mesh", "value"):
-                    self._removeSupportMesh(node)
+                if node_stack.getProperty("anti_overhang_mesh", "value"):
+                    self._removeSupportBlockerMesh(node)
             self._all_picked_node = []
             self._SMsg = 'Remove All'
             self.propertyChanged.emit()
@@ -944,10 +661,10 @@ class CustomSupportEraserPlus(Tool):
                     # Logger.log('d', 'isSliceable : ' + str(N_Name))
                     node_stack=node.callDecoration("getStack")           
                     if node_stack:        
-                        if node_stack.getProperty("support_mesh", "value"):
+                        if node_stack.getProperty("anti_overhang_mesh", "value"):
                             # N_Name=node.getName()
                             # Logger.log('d', 'support_mesh : ' + str(N_Name)) 
-                            self._removeSupportMesh(node)
+                            self._removeSupportBlockerMesh(node)
         
     def getSSize(self) -> float:
         """ 
@@ -970,7 +687,7 @@ class CustomSupportEraserPlus(Tool):
         
         #Logger.log('d', 's_value : ' + str(s_value))        
         self._UseSize = s_value
-        self._preferences.setValue("customsupportcylinder/s_size", s_value)
+        self._preferences.setValue("CustomSupportEraserPlus/s_size", s_value)
 
     def getMSize(self) -> float:
         """ 
@@ -993,7 +710,7 @@ class CustomSupportEraserPlus(Tool):
         
         #Logger.log('d', 's_value : ' + str(s_value))        
         self._MaxSize = s_value
-        self._preferences.setValue("customsupportcylinder/m_size", s_value)
+        self._preferences.setValue("CustomSupportEraserPlus/m_size", s_value)
         
     def getISize(self) -> float:
         """ 
@@ -1016,7 +733,7 @@ class CustomSupportEraserPlus(Tool):
         
         #Logger.log('d', 's_value : ' + str(s_value))        
         self._UseISize = s_value
-        self._preferences.setValue("customsupportcylinder/i_size", s_value)
+        self._preferences.setValue("CustomSupportEraserPlus/i_size", s_value)
         
     def getAAngle(self) -> float:
         """ 
@@ -1039,7 +756,7 @@ class CustomSupportEraserPlus(Tool):
         
         # Logger.log('d', 's_value : ' + str(s_value))        
         self._UseAngle = s_value
-        self._preferences.setValue("customsupportcylinder/a_angle", s_value)
+        self._preferences.setValue("CustomSupportEraserPlus/a_angle", s_value)
  
     def getSMsg(self) -> bool:
         """ 
@@ -1066,7 +783,7 @@ class CustomSupportEraserPlus(Tool):
         """
         self._SType = SType
         # Logger.log('d', 'SType : ' + str(SType))   
-        self._preferences.setValue("customsupportcylinder/t_type", SType)
+        self._preferences.setValue("CustomSupportEraserPlus/t_type", SType)
  
     def getSubType(self) -> bool:
         """ 
@@ -1081,7 +798,7 @@ class CustomSupportEraserPlus(Tool):
         """
         self._SubType = SubType
         # Logger.log('d', 'Get SubType : ' + str(SubType))   
-        self._preferences.setValue("customsupportcylinder/s_type", SubType)
+        self._preferences.setValue("CustomSupportEraserPlus/s_type", SubType)
         
     def getYDirection(self) -> bool:
         """ 
@@ -1094,7 +811,7 @@ class CustomSupportEraserPlus(Tool):
         param YDirection: as boolean.
         """
         self._UseYDirection = YDirection
-        self._preferences.setValue("customsupportcylinder/y_direction", YDirection)
+        self._preferences.setValue("CustomSupportEraserPlus/y_direction", YDirection)
  
     def getEHeights(self) -> bool:
         """ 
@@ -1107,7 +824,7 @@ class CustomSupportEraserPlus(Tool):
         param EHeights: as boolean.
         """
         self._EqualizeHeights = EHeights
-        self._preferences.setValue("customsupportcylinder/e_heights", EHeights)
+        self._preferences.setValue("CustomSupportEraserPlus/e_heights", EHeights)
  
     def getSMain(self) -> bool:
         """ 
@@ -1120,7 +837,7 @@ class CustomSupportEraserPlus(Tool):
         param SMain: as boolean.
         """
         self._ScaleMainDirection = SMain
-        self._preferences.setValue("customsupportcylinder/scale_main_direction", SMain)
+        self._preferences.setValue("CustomSupportEraserPlus/scale_main_direction", SMain)
         
     def getSMirror(self) -> bool:
         """ 
@@ -1133,4 +850,4 @@ class CustomSupportEraserPlus(Tool):
         param SMirror: as boolean.
         """
         self._MirrorSupport = SMirror
-        self._preferences.setValue("customsupportcylinder/s_mirror", SMirror)
+        self._preferences.setValue("CustomSupportEraserPlus/s_mirror", SMirror)

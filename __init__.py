@@ -7,7 +7,7 @@ try:
 except ImportError:
     VERSION_QT5 = True
     
-from . import CustomSupportsEraserPlus
+from . import CustomSupportEraserPlus
 
 from UM.i18n import i18nCatalog
 i18n_catalog = i18nCatalog("cura")
@@ -24,7 +24,7 @@ def getMetaData():
             "description": i18n_catalog.i18nc("@info:tooltip", "Add 3 types of custom support eraser"),
             "icon": "tool_icon.svg",
             "tool_panel": QmlFile,
-            "weight": 8
+            "weight": 7
         }
     }
 
