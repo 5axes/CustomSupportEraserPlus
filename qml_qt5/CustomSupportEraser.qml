@@ -42,7 +42,6 @@ Item
         {
             id: sTypeButtons
             spacing: UM.Theme.getSize("default_margin").width
-
 			
             Button
             {
@@ -56,7 +55,6 @@ Item
                 checked: UM.ActiveTool.properties.getValue("SBType") === 'cube'
                 z: 3; // Depth position 
             }
-
 
             Button
             {
@@ -107,7 +105,6 @@ Item
             width: Math.ceil(contentWidth) //Make sure that the grid cells have an integer width.
         }
  
-		
         TextField
         {
             id: sizeTextField

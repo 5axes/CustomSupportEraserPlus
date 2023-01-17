@@ -119,7 +119,6 @@ class CustomSupportEraserPlus(Tool):
         self._UseSize = float(self._preferences.getValue("CustomSupportEraserPlus/s_size"))
         # convert as boolean to avoid further issue
         self._UseOnBuildPlate = bool(self._preferences.getValue("CustomSupportEraserPlus/on_build_plate"))
- 
                 
     def event(self, event):
         super().event(event)
@@ -346,7 +345,7 @@ class CustomSupportEraserPlus(Tool):
         return mesh_data
         
     # Cube Creation
-    def _createCube(self, size, height, top ):
+    def _createCube(self, size, height, sup ):
         mesh = MeshBuilder()
 
         # Intial Comment from Ultimaker B.V. I have never try to verify this point
@@ -358,12 +357,12 @@ class CustomSupportEraserPlus(Tool):
         
         nbv=24        
         verts = [ # 6 faces with 4 corners each
-            [-s_inf, -l,  s_inf], [-s,  top,  s], [ s,  top,  s], [ s_inf, -l,  s_inf],
-            [-s,  top, -s], [-s_inf, -l, -s_inf], [ s_inf, -l, -s_inf], [ s,  top, -s],
+            [-s_inf, -l,  s_inf], [-s,  sup,  s], [ s,  sup,  s], [ s_inf, -l,  s_inf],
+            [-s,  sup, -s], [-s_inf, -l, -s_inf], [ s_inf, -l, -s_inf], [ s,  sup, -s],
             [ s_inf, -l, -s_inf], [-s_inf, -l, -s_inf], [-s_inf, -l,  s_inf], [ s_inf, -l,  s_inf],
-            [-s,  top, -s], [ s,  top, -s], [ s,  top,  s], [-s,  top,  s],
-            [-s_inf, -l,  s_inf], [-s_inf, -l, -s_inf], [-s,  top, -s], [-s,  top,  s],
-            [ s_inf, -l, -s_inf], [ s_inf, -l,  s_inf], [ s,  top,  s], [ s,  top, -s]
+            [-s,  sup, -s], [ s,  sup, -s], [ s,  sup,  s], [-s,  sup,  s],
+            [-s_inf, -l,  s_inf], [-s_inf, -l, -s_inf], [-s,  sup, -s], [-s,  sup,  s],
+            [ s_inf, -l, -s_inf], [ s_inf, -l,  s_inf], [ s,  sup,  s], [ s,  sup, -s]
         ]
         mesh.setVertices(numpy.asarray(verts, dtype=numpy.float32))
 
@@ -378,12 +377,12 @@ class CustomSupportEraserPlus(Tool):
         
         
     # Cylinder creation
-    def _createCylinder(self, size, nb , lg , sup ):
+    def _createCylinder(self, size, nb , height , sup ):
         mesh = MeshBuilder()
         # Per-vertex normals require duplication of vertices
         r = size / 2
 
-        l = -lg
+        l = -height
         rng = int(360 / nb)
         ang = math.radians(nb)
         r_inf=r
@@ -422,7 +421,7 @@ class CustomSupportEraserPlus(Tool):
         return mesh
         
     # Custom Support Creation
-    def _createCustom(self, size, pos1 , pos2, ztop):
+    def _createCustom(self, size, pos1 , pos2, sup):
         mesh = MeshBuilder()
         # Init point
         Pt1 = Vector(pos1.x,pos1.z,pos1.y)
@@ -434,12 +433,9 @@ class CustomSupportEraserPlus(Tool):
         s = size / 2
 
         l_a = pos1.y 
-        s_infa=s
         l_b = pos2.y 
-        s_infb=s
  
- 
-        Vtop = Vector(0,0,ztop)
+        Vtop = Vector(0,0,sup)
         VZ = Vector(0,0,s)
         VZa = Vector(0,0,-l_a)
         VZb = Vector(0,0,-l_b)
@@ -449,19 +445,16 @@ class CustomSupportEraserPlus(Tool):
             
         nbv=24
 
-        Deca = Vector(Norm.x*s_infa,Norm.y*s_infa,Norm.z*s_infa)
-        Decb = Vector(Norm.x*s_infb,Norm.y*s_infb,Norm.z*s_infb)
-
         # X Z Y
         P_1t = Vtop+Dec
         P_2t = Vtop-Dec
         P_3t = V_Dir+Vtop+Dec
         P_4t = V_Dir+Vtop-Dec
  
-        P_1i = VZa+Deca
-        P_2i = VZa-Deca
-        P_3i = VZb+V_Dir+Decb
-        P_4i = VZb+V_Dir-Decb
+        P_1i = VZa+Dec
+        P_2i = VZa-Dec
+        P_3i = VZb+V_Dir+Dec
+        P_4i = VZb+V_Dir-Dec
          
         """
         1) Top

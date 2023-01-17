@@ -139,7 +139,6 @@ Item
                 UM.ActiveTool.setProperty("SSize", modified_text)
             }
         }
-
 	}
 	
 	Item
@@ -162,8 +161,6 @@ Item
 			checked: UM.ActiveTool.properties.getValue("OnBuildPlate")
 			onClicked: UM.ActiveTool.setProperty("OnBuildPlate", checked)	
 		}
-		
-
 	}
 
     Rectangle {
