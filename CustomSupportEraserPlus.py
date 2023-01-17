@@ -222,13 +222,17 @@ class CustomSupportEraserPlus(Tool):
         if self._UseOnBuildPlate :
             self._long=position.y
         else :
-            self._long=self._UseSize            
+            if self._UseSize >= position.y :
+                self._long=position.y
+            else :
+               self._long=self._UseSize
+                      
         # Logger.log("d", "Long Support= %s", str(self._long))
         
         # For Cube/Cylinder
-        # Test with 0.25 because the precision on the clic poisition is not very thight 
+        # Test with 0.2 because the precision on the clic poisition is not very thight 
         if self._SBType == 'cube' :
-            self._Sup = self._UseSize*0.25
+            self._Sup = self._UseSize*0.2
         else :
             self._Sup = self._UseSize*0.1
                 
