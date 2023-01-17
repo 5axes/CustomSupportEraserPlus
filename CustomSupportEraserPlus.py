@@ -8,6 +8,9 @@
 #
 #--------------------------------------------------------------------------------------------
 # First release 01-17-2023  to change the initial plugin into Support Eraser
+#
+# V1.0.1 01-17-2023  Clean and Simplify plugin Code + Test Cura 4.X
+#
 #--------------------------------------------------------------------------------------------
 
 VERSION_QT5 = False
@@ -47,17 +50,12 @@ from UM.Settings.SettingInstance import SettingInstance
 from cura.Scene.SliceableObjectDecorator import SliceableObjectDecorator
 from cura.Scene.BuildPlateDecorator import BuildPlateDecorator
 from cura.Scene.CuraSceneNode import CuraSceneNode
-from UM.Scene.ToolHandle import ToolHandle
-from UM.Tool import Tool
-
 
 from UM.i18n import i18nCatalog
 catalog = i18nCatalog("cura")
 
 import math
 import numpy
-import os
-import trimesh
 
 
 class CustomSupportEraserPlus(Tool):
@@ -311,40 +309,8 @@ class CustomSupportEraserPlus(Tool):
             self._skip_press = False
 
         self._had_selection = has_selection
- 
-    # Initial Source code from fieldOfView
-    def _toMeshData(self, tri_node: trimesh.base.Trimesh) -> MeshData:
-        # Rotate the part to laydown on the build plate
-        # Modification from 5@xes
-        tri_node.apply_transform(trimesh.transformations.rotation_matrix(math.radians(90), [-1, 0, 0]))
-        tri_faces = tri_node.faces
-        tri_vertices = tri_node.vertices
-        # Following code from fieldOfView
-        # https://github.com/fieldOfView/Cura-SimpleShapes/blob/bac9133a2ddfbf1ca6a3c27aca1cfdd26e847221/SimpleShapes.py#L45
-
-        indices = []
-        vertices = []
-
-        index_count = 0
-        face_count = 0
-        for tri_face in tri_faces:
-            face = []
-            for tri_index in tri_face:
-                vertices.append(tri_vertices[tri_index])
-                face.append(index_count)
-                index_count += 1
-            indices.append(face)
-            face_count += 1
-
-        vertices = numpy.asarray(vertices, dtype=numpy.float32)
-        indices = numpy.asarray(indices, dtype=numpy.int32)
-        normals = calculateNormalsFromIndexedVertices(vertices, indices, face_count)
-
-        mesh_data = MeshData(vertices=vertices, indices=indices, normals=normals)
-
-        return mesh_data
         
-    # Cube Creation
+    # Cube Support Blocker Creation
     def _createCube(self, size, height, sup ):
         mesh = MeshBuilder()
 
@@ -373,10 +339,9 @@ class CustomSupportEraserPlus(Tool):
         mesh.setIndices(numpy.asarray(indices, dtype=numpy.int32))
 
         mesh.calculateNormals()
-        return mesh
+        return mesh      
         
-        
-    # Cylinder creation
+    # Cylinder Support Blocker Creation
     def _createCylinder(self, size, nb , height , sup ):
         mesh = MeshBuilder()
         # Per-vertex normals require duplication of vertices
@@ -420,7 +385,7 @@ class CustomSupportEraserPlus(Tool):
         mesh.calculateNormals()
         return mesh
         
-    # Custom Support Creation
+    # Custom Support Blocker Creation
     def _createCustom(self, size, pos1 , pos2, sup):
         mesh = MeshBuilder()
         # Init point
@@ -446,11 +411,12 @@ class CustomSupportEraserPlus(Tool):
         nbv=24
 
         # X Z Y
+        # t=Top
         P_1t = Vtop+Dec
         P_2t = Vtop-Dec
         P_3t = V_Dir+Vtop+Dec
         P_4t = V_Dir+Vtop-Dec
- 
+        # i=Inf
         P_1i = VZa+Dec
         P_2i = VZa-Dec
         P_3i = VZb+V_Dir+Dec
@@ -507,7 +473,7 @@ class CustomSupportEraserPlus(Tool):
         
     def getSSize(self) -> float:
         """ 
-            return: golabl _UseSize  in mm.
+            return: global _UseSize  in mm.
         """           
         return self._UseSize
   
@@ -528,10 +494,9 @@ class CustomSupportEraserPlus(Tool):
         self._UseSize = s_value
         self._preferences.setValue("CustomSupportEraserPlus/s_size", s_value)       
        
- 
     def getSMsg(self) -> bool:
         """ 
-            return: golabl _SMsg  as text paramater.
+            return: global _SMsg  as text paramater.
         """ 
         return self._SMsg
     
@@ -540,11 +505,10 @@ class CustomSupportEraserPlus(Tool):
         param SMsg: SMsg as text paramater.
         """
         self._SMsg = SMsg
-
         
     def getSBType(self) -> bool:
         """ 
-            return: golabl _SBType  as text paramater.
+            return: global _SBType  as text paramater.
         """ 
         return self._SBType
     
@@ -558,7 +522,7 @@ class CustomSupportEraserPlus(Tool):
         
     def getOnBuildPlate(self) -> bool:
         """ 
-            return: golabl _UseOnBuildPlate  as boolean.
+            return: global _UseOnBuildPlate  as boolean.
         """ 
         return self._UseOnBuildPlate
     
