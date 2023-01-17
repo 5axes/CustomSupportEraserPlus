@@ -77,9 +77,9 @@ class CustomSupportEraserPlus(Tool):
         
         # Shortcut
         if not VERSION_QT5:
-            self._shortcut_key = Qt.Key.Key_F
+            self._shortcut_key = Qt.Key.Key_B
         else:
-            self._shortcut_key = Qt.Key_F
+            self._shortcut_key = Qt.Key_B
             
         self._controller = self.getController()
 
