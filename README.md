@@ -28,11 +28,11 @@ Drop the curapackage according to your Cura release in the 3d viewport in Cura a
 
 ### Automatic installation for Cura 4.X and Cura 5.X
 
-First, make sure your Cura version is 4.5 or newer. This plugin is now avalaible in the Cura marketplace. So you can install it automaticaly from this place:
+First, make sure your Cura version is 4.8 or newer. This plugin is now avalaible in the Cura marketplace. So you can install it automaticaly from this place:
 
 ![Automatic Install](./images/MarketPlace.png)
 
-[Cylindric Custom Support on Ultimaker Market place](https://marketplace.ultimaker.com/app/cura/plugins/5axes/CustomSupportEraserPlus)
+[Custom Supports Eraser Plus on Ultimaker Market place](https://marketplace.ultimaker.com/app/cura/plugins/5axes/CustomSupportEraserPlus)
 
 
 ## How to use
@@ -40,7 +40,7 @@ First, make sure your Cura version is 4.5 or newer. This plugin is now avalaible
 * Load a model in Cura and select it
 
 * Click on the "Custom Supports Eraser plus" button on the left toolbar
-* With the 3 buttons in the plugin windows, it's possible to switch the geometry between a cylinder, a tube, a cubic, an abutment , a freeform or a custom support.
+* With the 3 buttons in the plugin windows, it's possible to switch the geometry between a cube, a cylinder or a custom support.
 * Change the value for the support *Size* in numeric input field in the tool panel if necessary
 
 
@@ -50,8 +50,8 @@ Select the type of support to create with the buttons in the support plugin inte
 
 ![Support type selection](./images/button.jpg)
 
-- Click anywhere on the model to place support cylinder there
-* The length of the support is automaticaly set from the pick point to the construction plate.
+- Click anywhere on the model to place support eraser there
+* The length of the support is automaticaly set from the pick point to the construction plate if the option "Reach Build Plate" is active.
 
 - **Clicking existing support deletes it**
 
@@ -61,7 +61,7 @@ Select the type of support to create with the buttons in the support plugin inte
 
 - Before to slice your model, uncheck the "Generate Support" checkbox in the right panel **(if you want to use ONLY custom supports)**
 
->Note: it's easier to add/remove supports when you are in "Solid View" mode
+>Note: it's easier to add/remove supports blocker when you are in "Solid View" mode
 
 
 ## Modifications
