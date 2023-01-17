@@ -24,7 +24,7 @@ Download the latest release from this [repository](https://github.com/5axes/Cust
 
 Drop the curapackage according to your Cura release in the 3d viewport in Cura as if you were opening a 3d model. You will then be prompted to restart Cura.
 
-![Manual Install](./images/Restart.JPG)
+![Manual Install](./images/Restart.jpg)
 
 ### Automatic installation for Cura 4.X and Cura 5.X
 
