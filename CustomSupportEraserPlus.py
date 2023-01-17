@@ -171,7 +171,7 @@ class CustomSupportEraserPlus(Tool):
                     self._SHeights=0
                     return
 
-                elif node_stack.getProperty("support_mesh_drop_down", "value") or node_stack.getProperty("support_mesh", "value") or node_stack.getProperty("anti_overhang_mesh", "value") or node_stack.getProperty("infill_mesh", "value") or node_stack.getProperty("cutting_mesh", "value"):
+                elif node_stack.getProperty("support_mesh", "value") or node_stack.getProperty("anti_overhang_mesh", "value") or node_stack.getProperty("infill_mesh", "value") or node_stack.getProperty("cutting_mesh", "value"):
                     # Only "normal" meshes can have anti_overhang_mesh added to them
                     return
 
