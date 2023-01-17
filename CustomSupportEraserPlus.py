@@ -206,7 +206,6 @@ class CustomSupportEraserPlus(Tool):
         node = CuraSceneNode()
 
         node_bounds = parent.getBoundingBox()
-        self._nodeHeight = node_bounds.height
         
         # Logger.log("d", "Height Model= %s", str(node_bounds.height))
         
@@ -221,22 +220,17 @@ class CustomSupportEraserPlus(Tool):
         
         # long=Support Height
         if self._UseOnBuildPlate :
-            self._long=self._UseSize
-        else :
             self._long=position.y
+        else :
+            self._long=self._UseSize            
         # Logger.log("d", "Long Support= %s", str(self._long))
         
-        # Limitation for support height to Node Height
         # For Cube/Cylinder
-        # Test with 0.5 because the precision on the clic poisition is not very thight 
-        if self._long >= (self._nodeHeight-0.5) :
-            # additionale length
-            self._Sup = 0
+        # Test with 0.25 because the precision on the clic poisition is not very thight 
+        if self._SBType == 'cube' :
+            self._Sup = self._UseSize*0.25
         else :
-            if self._SBType == 'cube' :
-                self._Sup = self._UseSize*0.5
-            else :
-                self._Sup = self._UseSize*0.1
+            self._Sup = self._UseSize*0.1
                 
         # Logger.log("d", "Additional Long Support = %s", str(self._long+self._Sup))    
             
@@ -247,14 +241,8 @@ class CustomSupportEraserPlus(Tool):
             # Cube creation Size , length , top Additional Height
             mesh =  self._createCube(self._UseSize,self._long,self._Sup)
         else:           
-            # Custom creation Size , P1 as vector P2 as vector
-            # Get support_interface_height as extra distance 
-            extruder_stack = self._application.getExtruderManager().getActiveExtruderStacks()[0]
-            if self._Sup == 0 :
-                extra_top = 0
-            else :
-                extra_top=extruder_stack.getProperty("support_interface_height", "value")            
-            mesh =  self._createCustom(self._UseSize,position,position2,extra_top)
+            # Custom creation Size , P1 as vector P2 as vector           
+            mesh =  self._createCustom(self._UseSize,position,position2,self._Sup)
 
         node.setMeshData(mesh.build())
 
