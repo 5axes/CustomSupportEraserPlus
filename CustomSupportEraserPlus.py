@@ -70,7 +70,7 @@ class CustomSupportEraserPlus(Tool):
         self._SHeights = 0
         
         # variable for menu dialog        
-        self._UseSize = 2.0
+        self._UseSize = 5.0
         self._UseOnBuildPlate = False
         self._SBType = 'cube'
         self._SMsg = 'Remove All'
@@ -204,11 +204,7 @@ class CustomSupportEraserPlus(Tool):
 
     def _createSupportEraserMesh(self, parent: CuraSceneNode, position: Vector , position2: Vector):
         node = CuraSceneNode()
-
-        node_bounds = parent.getBoundingBox()
-        
-        # Logger.log("d", "Height Model= %s", str(node_bounds.height))
-        
+    
         if self._SBType == 'cylinder':
             node.setName("CylinderBlocker")
         elif self._SBType == 'cube':
@@ -222,28 +218,31 @@ class CustomSupportEraserPlus(Tool):
         if self._UseOnBuildPlate :
             self._long=position.y
         else :
-            if self._UseSize >= position.y :
-                self._long=position.y
+            if self._SBType == 'cylinder':
+                self._long=self._UseSize*0.5
             else :
-               self._long=self._UseSize
-                      
+                self._long=self._UseSize
+        
+        if self._long >= position.y :
+            self._long=position.y
+            
         # Logger.log("d", "Long Support= %s", str(self._long))
         
         # For Cube/Cylinder
-        # Test with 0.2 because the precision on the clic poisition is not very thight 
+        # Test with 0.05 because the precision on the clic poisition is not very thight 
         if self._SBType == 'cube' :
-            self._Sup = self._UseSize*0.2
+            self._Sup = self._UseSize*0.05
         else :
-            self._Sup = self._UseSize*0.1
+            self._Sup = self._UseSize*0.01
                 
         # Logger.log("d", "Additional Long Support = %s", str(self._long+self._Sup))    
             
-        if self._SBType == 'cylinder':
-            # Cylinder creation Diameter , Increment angle 10°, length , top Additional Height
-            mesh = self._createCylinder(self._UseSize,10,self._long,self._Sup)
-        elif self._SBType == 'cube':
+        if self._SBType == 'cube':
             # Cube creation Size , length , top Additional Height
             mesh =  self._createCube(self._UseSize,self._long,self._Sup)
+        elif self._SBType == 'cylinder':
+            # Cylinder creation Diameter , Increment angle 10°, length , top Additional Height
+            mesh = self._createCylinder(self._UseSize,10,self._long,self._Sup)            
         else:           
             # Custom creation Size , P1 as vector P2 as vector           
             mesh =  self._createCustom(self._UseSize,position,position2,self._Sup)
@@ -363,10 +362,6 @@ class CustomSupportEraserPlus(Tool):
         s = size / 2
         l = height 
         s_inf=s
-        
-        # Logger.log("d", "size= %s", str(size))
-        # Logger.log("d", "height= %s", str(height))
-        # Logger.log("d", "top= %s", str(top))
         
         nbv=24        
         verts = [ # 6 faces with 4 corners each
@@ -521,7 +516,7 @@ class CustomSupportEraserPlus(Tool):
                     if node_stack:        
                         if node_stack.getProperty("anti_overhang_mesh", "value"):
                             # N_Name=node.getName()
-                            # Logger.log('d', 'support_mesh : ' + str(N_Name)) 
+                            # Logger.log('d', 'SupportBlockerMesh : ' + str(N_Name)) 
                             self._removeSupportBlockerMesh(node)
         
     def getSSize(self) -> float:
