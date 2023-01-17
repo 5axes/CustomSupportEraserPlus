@@ -7,6 +7,7 @@
 #  https://github.com/Ultimaker/Cura/tree/master/plugins/SupportEraser
 #
 #--------------------------------------------------------------------------------------------
+# First release 01-17-2023  to change the initial plugin into Support Eraser
 #--------------------------------------------------------------------------------------------
 
 VERSION_QT5 = False
@@ -170,8 +171,8 @@ class CustomSupportEraserPlus(Tool):
                     self._SHeights=0
                     return
 
-                elif node_stack.getProperty("anti_overhang_mesh", "value") or node_stack.getProperty("infill_mesh", "value") or node_stack.getProperty("cutting_mesh", "value"):
-                    # Only "normal" meshes can have support_mesh added to them
+                elif node_stack.getProperty("support_mesh_drop_down", "value") or node_stack.getProperty("support_mesh", "value") or node_stack.getProperty("anti_overhang_mesh", "value") or node_stack.getProperty("infill_mesh", "value") or node_stack.getProperty("cutting_mesh", "value"):
+                    # Only "normal" meshes can have anti_overhang_mesh added to them
                     return
 
             # Create a pass for picking a world-space location from the mouse location
@@ -187,7 +188,7 @@ class CustomSupportEraserPlus(Tool):
                     picked_position_b = picking_pass.getPickedPosition(event.x, event.y)
                     self._Svg_Position = picked_position_b
                     self._Nb_Point = 0
-                    # Add the support_mesh cube at the picked location
+                    # Add the anti_overhang_mesh cube at the picked location
                     self._createSupportEraserMesh(picked_node, picked_position,picked_position_b)
                 else:
                     self._Svg_Position = picking_pass.getPickedPosition(event.x, event.y)
@@ -198,7 +199,7 @@ class CustomSupportEraserPlus(Tool):
                 picked_position_b = picking_pass.getPickedPosition(event.x, event.y)
                 self._Svg_Position = picked_position_b
                     
-                # Add the support_mesh cube at the picked location
+                # Add the anti_overhang_mesh cube at the picked location
                 self._createSupportEraserMesh(picked_node, picked_position,picked_position_b)
 
 
