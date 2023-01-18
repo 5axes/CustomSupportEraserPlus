@@ -58,7 +58,7 @@ import os.path
 import trimesh
 
 from UM.Resources import Resources
-from UM.i18n import i18n_catalog
+from UM.i18n import i18nCatalog
 
 
 Resources.addSearchPath(
