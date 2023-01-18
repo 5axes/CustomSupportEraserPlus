@@ -195,11 +195,11 @@ class CustomSupportEraserPlus(Tool):
         node = CuraSceneNode()
     
         if self._SBType == 'cube':
-            node.setName("CubeBlocker")
+            node.setName("EraserCube")
         elif self._SBType == 'cylinder':
-            node.setName("CylinderBlocker")           
+            node.setName("EraserCylinder")           
         else:
-            node.setName("CustomBlocker")
+            node.setName("EraserCustom")
             
         node.setSelectable(True)
         
