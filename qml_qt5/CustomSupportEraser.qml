@@ -18,7 +18,7 @@ Item
     id: base
     width: childrenRect.width
     height: childrenRect.height
-    UM.I18nCatalog { id: catalog; name: "cura"}
+    UM.I18nCatalog { id: catalog; name: "customsupporteraser"}
 
     property var s_size: UM.ActiveTool.properties.getValue("SSize")
 
@@ -127,6 +127,7 @@ Item
             }
         }
     }
+	
 	Item
 	{
 		id: baseCheckBox
@@ -144,11 +145,9 @@ Item
 			anchors.left: parent.left
 			text: catalog.i18nc("@option:check","Reach Build Plate")
 			style: UM.Theme.styles.partially_checkbox
-			visible: abutmentButton.checked || freeformButton.checked
 
 			checked: UM.ActiveTool.properties.getValue("OnBuildPlate")
-			onClicked: UM.ActiveTool.setProperty("OnBuildPlate", checked)
-			
+			onClicked: UM.ActiveTool.setProperty("OnBuildPlate", checked)		
 		}
 	}
 	

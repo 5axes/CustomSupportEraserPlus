@@ -10,6 +10,7 @@
 # First release 01-17-2023  to change the initial plugin into Support Eraser
 #
 # V1.0.1 01-17-2023  Clean and Simplify plugin Code + Test Cura 4.X
+# V1.0.2 01-18-2023  Introduce Translation
 #
 #--------------------------------------------------------------------------------------------
 
@@ -51,12 +52,24 @@ from cura.Scene.SliceableObjectDecorator import SliceableObjectDecorator
 from cura.Scene.BuildPlateDecorator import BuildPlateDecorator
 from cura.Scene.CuraSceneNode import CuraSceneNode
 
-from UM.i18n import i18nCatalog
-catalog = i18nCatalog("cura")
-
 import math
 import numpy
+import os.path
+import trimesh
 
+from UM.Resources import Resources
+from UM.i18n import i18n_catalog
+
+
+Resources.addSearchPath(
+    os.path.join(os.path.abspath(os.path.dirname(__file__)))
+)  # Plugin translation file import
+
+i18n_catalog = i18nCatalog("customsupporteraser")
+
+if i18n_catalog.hasTranslationLoaded():
+    Logger.log("i", "Custom Support Eraser Plus Plugin translation loaded!")
+    
 
 class CustomSupportEraserPlus(Tool):
     def __init__(self):
@@ -71,7 +84,7 @@ class CustomSupportEraserPlus(Tool):
         self._UseSize = 5.0
         self._UseOnBuildPlate = False
         self._SBType = 'cube'
-        self._SMsg = 'Remove All'
+        self._SMsg = i18n_catalog.i18nc("@message", "Remove All") 
         
         # Shortcut
         if not VERSION_QT5:
@@ -84,7 +97,6 @@ class CustomSupportEraserPlus(Tool):
         self._Svg_Position = Vector
         self._selection_pass = None
 
-        self._i18n_catalog = None
         
         self._application = CuraApplication.getInstance()
         
@@ -266,7 +278,7 @@ class CustomSupportEraserPlus(Tool):
         op.push()
         node.setPosition(position, CuraSceneNode.TransformSpace.World)
         self._all_picked_node.append(node)
-        self._SMsg = 'Remove Last'
+        self._SMsg = i18n_catalog.i18nc("@message", "Remove Last") 
         self.propertyChanged.emit()
         
         CuraApplication.getInstance().getController().getScene().sceneChanged.emit(node)
@@ -457,7 +469,7 @@ class CustomSupportEraserPlus(Tool):
                 if node_stack.getProperty("anti_overhang_mesh", "value"):
                     self._removeSupportBlockerMesh(node)
             self._all_picked_node = []
-            self._SMsg = 'Remove All'
+            self._SMsg = i18n_catalog.i18nc("@message", "Remove All") 
             self.propertyChanged.emit()
         else:        
             for node in DepthFirstIterator(self._application.getController().getScene().getRoot()):
