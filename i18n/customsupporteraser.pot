@@ -27,42 +27,42 @@ msgctxt "@info:tooltip"
 msgid "Add 3 types of custom support eraser"
 msgstr ""
 
-#: CustomSupportsCylinder.py::
+#: CustomSupportEraserPlus.py::
 msgctxt "@label"
 msgid "Remove All"
 msgstr ""
 
-#: CustomSupportsCylinder.py:
+#: CustomSupportEraserPlus.py:
 msgctxt "@label"
 msgid "Remove Last"
 msgstr ""
 
-#: qml_qt6/MeasureTool.qml: qml_qt5/MeasureTool.qml:
+#: qml_qt6/CustomSupportEraser.qml: qml_qt5/CustomSupportEraser.qml:
 msgctxt "@label"
 msgid "Cylinder"
 msgstr ""
 
-#: qml_qt6/MeasureTool.qml: qml_qt5/MeasureTool.qml:
+#: qml_qt6/CustomSupportEraser.qml: qml_qt5/CustomSupportEraser.qml:
 msgctxt "@label"
 msgid "Tube"
 msgstr ""
 
-#: qml_qt6/MeasureTool.qml qml_qt5/MeasureTool.qml:
+#: qml_qt6/CustomSupportEraser.qml qml_qt5/CustomSupportEraser.qml:
 msgctxt "@label"
 msgid "Cube"
 msgstr ""
 
-#: qml_qt6/MeasureTool.qml: qml_qt5/MeasureTool.qml:
+#: qml_qt6/CustomSupportEraser.qml: qml_qt5/CustomSupportEraser.qml:
 msgctxt "@label"
 msgid "Custom"
 msgstr ""
 
-#: qml_qt6/MeasureTool.qml: qml_qt5/MeasureTool.qml:
+#: qml_qt6/CustomSupportEraser.qml: qml_qt5/CustomSupportEraser.qml:
 msgctxt "@label"
 msgid "Size"
 msgstr ""
 
-#: qml_qt6/MeasureTool.qml: qml_qt5/MeasureTool.qml:
+#: qml_qt6/CustomSupportEraser.qml: qml_qt5/CustomSupportEraser.qml:
 msgctxt "@option:check"
 msgid "Reach Build Plate"
 msgstr ""
