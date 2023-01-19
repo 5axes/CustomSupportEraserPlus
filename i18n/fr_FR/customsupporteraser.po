@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Custom Support Cylinder\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-11 15:10+0000\n"
-"PO-Revision-Date: 2023-01-19 00:47+0200\n"
+"PO-Revision-Date: 2023-01-19 09:37+0200\n"
 "Last-Translator: 5axes <5axes@free.fr>\n"
 "Language-Team: 5axes\n"
 "Language: fr\n"
@@ -25,7 +25,7 @@ msgstr "Effaceur de Supports personnalisés Plus"
 #: __init__.py:24
 msgctxt "@info:tooltip"
 msgid "Add 3 types of custom support eraser"
-msgstr "Ajouter 3 types personnalisée d'effaceur de support "
+msgstr "Ajouter 3 types personnalisée d'effaceur de support"
 
 #: CustomSupportEraserPlus.py::
 msgctxt "@label"
@@ -37,11 +37,6 @@ msgctxt "@label"
 msgid "Remove Last"
 msgstr "Supprimer Derniers"
 
-#: qml_qt6/CustomSupportEraser.qml: qml_qt5/CustomSupportEraser.qml:
-msgctxt "@label"
-msgid "Cylinder"
-msgstr "Cylindre"
-
 #: qml_qt6/CustomSupportEraser.qml qml_qt5/CustomSupportEraser.qml:
 msgctxt "@label"
 msgid "Cube"
@@ -49,8 +44,13 @@ msgstr "Cube"
 
 #: qml_qt6/CustomSupportEraser.qml: qml_qt5/CustomSupportEraser.qml:
 msgctxt "@label"
+msgid "Cylinder"
+msgstr "Cylindre"
+
+#: qml_qt6/CustomSupportEraser.qml: qml_qt5/CustomSupportEraser.qml:
+msgctxt "@label"
 msgid "Custom"
-msgstr "Personnalisé"
+msgstr "Par 2 points"
 
 #: qml_qt6/CustomSupportEraser.qml: qml_qt5/CustomSupportEraser.qml:
 msgctxt "@label"
