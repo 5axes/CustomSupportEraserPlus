@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Custom Support Cylinder\n"
+"Project-Id-Version: Custom Support Eraser Plus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-11 15:10+0000\n"
+"POT-Creation-Date: 2023-01-25 11:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,16 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: CustomSupportEraserPlus.py:87 CustomSupportEraserPlus.py:472
+msgctxt "@label"
+msgid "Remove All"
+msgstr ""
+
+#: CustomSupportEraserPlus.py:281
+msgctxt "@label"
+msgid "Remove Last"
+msgstr ""
 
 #: __init__.py:23
 msgctxt "@label"
@@ -27,42 +37,27 @@ msgctxt "@info:tooltip"
 msgid "Add 3 types of custom support eraser"
 msgstr ""
 
-#: CustomSupportEraserPlus.py::
-msgctxt "@label"
-msgid "Remove All"
-msgstr ""
-
-#: CustomSupportEraserPlus.py:
-msgctxt "@label"
-msgid "Remove Last"
-msgstr ""
-
-#: qml_qt6/CustomSupportEraser.qml: qml_qt5/CustomSupportEraser.qml:
-msgctxt "@label"
-msgid "Cylinder"
-msgstr ""
-
-#: qml_qt6/CustomSupportEraser.qml: qml_qt5/CustomSupportEraser.qml:
-msgctxt "@label"
-msgid "Tube"
-msgstr ""
-
-#: qml_qt6/CustomSupportEraser.qml qml_qt5/CustomSupportEraser.qml:
+#: qml_qt6/CustomSupportEraser.qml:51 qml_qt5/CustomSupportEraser.qml:49
 msgctxt "@label"
 msgid "Cube"
 msgstr ""
 
-#: qml_qt6/CustomSupportEraser.qml: qml_qt5/CustomSupportEraser.qml:
+#: qml_qt6/CustomSupportEraser.qml:67 qml_qt5/CustomSupportEraser.qml:62
+msgctxt "@label"
+msgid "Cylinder"
+msgstr ""
+
+#: qml_qt6/CustomSupportEraser.qml:83 qml_qt5/CustomSupportEraser.qml:75
 msgctxt "@label"
 msgid "Custom"
 msgstr ""
 
-#: qml_qt6/CustomSupportEraser.qml: qml_qt5/CustomSupportEraser.qml:
+#: qml_qt6/CustomSupportEraser.qml:112 qml_qt5/CustomSupportEraser.qml:100
 msgctxt "@label"
 msgid "Size"
 msgstr ""
 
-#: qml_qt6/CustomSupportEraser.qml: qml_qt5/CustomSupportEraser.qml:
+#: qml_qt6/CustomSupportEraser.qml:158 qml_qt5/CustomSupportEraser.qml:146
 msgctxt "@option:check"
 msgid "Reach Build Plate"
 msgstr ""
