@@ -84,7 +84,7 @@ class CustomSupportEraserPlus(Tool):
         self._UseSize = 5.0
         self._UseOnBuildPlate = False
         self._SBType = 'cube'
-        self._SMsg = i18n_catalog.i18nc("@message", "Remove All") 
+        self._SMsg = i18n_catalog.i18nc("@label", "Remove All") 
         
         # Shortcut
         if not VERSION_QT5:
@@ -278,7 +278,7 @@ class CustomSupportEraserPlus(Tool):
         op.push()
         node.setPosition(position, CuraSceneNode.TransformSpace.World)
         self._all_picked_node.append(node)
-        self._SMsg = i18n_catalog.i18nc("@message", "Remove Last") 
+        self._SMsg = i18n_catalog.i18nc("@label", "Remove Last") 
         self.propertyChanged.emit()
         
         CuraApplication.getInstance().getController().getScene().sceneChanged.emit(node)
@@ -469,7 +469,7 @@ class CustomSupportEraserPlus(Tool):
                 if node_stack.getProperty("anti_overhang_mesh", "value"):
                     self._removeSupportBlockerMesh(node)
             self._all_picked_node = []
-            self._SMsg = i18n_catalog.i18nc("@message", "Remove All") 
+            self._SMsg = i18n_catalog.i18nc("@label", "Remove All") 
             self.propertyChanged.emit()
         else:        
             for node in DepthFirstIterator(self._application.getController().getScene().getRoot()):
