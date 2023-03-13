@@ -11,6 +11,7 @@
 #
 # V1.0.1 01-17-2023  Clean and Simplify plugin Code + Test Cura 4.X
 # V1.0.2 01-18-2023  Introduce Translation
+# V1.0.3 03-13-2023  Change location qml & i18n
 #
 #--------------------------------------------------------------------------------------------
 
@@ -62,7 +63,7 @@ from UM.i18n import i18nCatalog
 
 
 Resources.addSearchPath(
-    os.path.join(os.path.abspath(os.path.dirname(__file__)))
+    os.path.join(os.path.abspath(os.path.dirname(__file__)),'resources')
 )  # Plugin translation file import
 
 i18n_catalog = i18nCatalog("customsupporteraser")

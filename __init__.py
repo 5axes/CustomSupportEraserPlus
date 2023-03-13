@@ -14,9 +14,9 @@ i18n_catalog = i18nCatalog("customsupporteraser")
 
 def getMetaData():
     if not VERSION_QT5:
-        QmlFile="qml_qt6/CustomSupportEraser.qml"
+        QmlFile="qml/qml_qt6/CustomSupportEraser.qml"
     else:
-        QmlFile="qml_qt5/CustomSupportEraser.qml"
+        QmlFile="qml/qml_qt5/CustomSupportEraser.qml"
 
     return {
         "tool": {
