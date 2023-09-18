@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Custom Support Eraser Plus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-13 22:35+0000\n"
+"POT-Creation-Date: 2023-09-18 10:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,16 +16,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: __init__.py:23
-msgctxt "@label"
-msgid "Custom Supports Eraser Plus"
-msgstr ""
-
-#: __init__.py:24
-msgctxt "@info:tooltip"
-msgid "Add 3 types of custom support eraser"
-msgstr ""
 
 #: CustomSupportEraserPlus.py:88 CustomSupportEraserPlus.py:473
 msgctxt "@label"
@@ -35,6 +25,16 @@ msgstr ""
 #: CustomSupportEraserPlus.py:282
 msgctxt "@label"
 msgid "Remove Last"
+msgstr ""
+
+#: __init__.py:23
+msgctxt "@label"
+msgid "Custom Supports Eraser Plus"
+msgstr ""
+
+#: __init__.py:24
+msgctxt "@info:tooltip"
+msgid "Add 3 types of custom support eraser"
 msgstr ""
 
 #: qml/qml_qt5/CustomSupportEraser.qml:49
